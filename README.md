@@ -6,6 +6,7 @@ Do not use in environments that would require secure encryption!
 
 ```
 Simple explanation of how exclusive or works.
+
 LOGIC:
 eXclusive OR          OR
 INPUT|OUTPUT     INPUT|OUTPUT
