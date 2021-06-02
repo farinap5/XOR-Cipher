@@ -5,7 +5,7 @@
 Do not use in environments that would require secure encryption!
 
 ```
-Simple explanation of how exclusive or works.
+Simple explanation of how exclusive OR works.
 
 LOGIC:
 eXclusive OR          OR
