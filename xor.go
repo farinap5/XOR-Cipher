@@ -11,19 +11,18 @@ import (
 // A simple XOR cipher function required arguments: A key
 // as a string and a data as a string of bytes. A string of
 // bytes is returned.
-func XORCipher(k string,m []byte) []byte {
-	var t []byte
-	for len(k) < len(m) {
-		k = k + k
+func XORCipher(key []byte,data []byte) []byte {
+	var enc_data []byte
+	for i := 0;i < len(data);i++ {
+		a := i%len(key)
+		b := data[i] ^ key[a]
+		enc_data = append(enc_data,b)
+		//println(string(data[i])," ",string(key[a]))
 	}
-	for i := 0;i < len(m);i++ {
-		z := m[i]^k[i]
-		t = append(t,z)
-	}
-	return t
+	return enc_data
 }
 
-func encode_file(k string,p string)  {
+func encode_file(k []byte,p string)  {
 	f,_ := ioutil.ReadFile(p)
 	c := XORCipher(k,f)
 	fa,_ := os.OpenFile(p, os.O_RDWR, 0644)
@@ -31,25 +30,25 @@ func encode_file(k string,p string)  {
 	println("[OK]-",len(c),"bytes converted!")
 }
 
-func encry(k string,m []byte) {
+func encry(k []byte,m []byte) {
 	data := XORCipher(k,m)
 	sEnc := base64.StdEncoding.EncodeToString(data)
 	fmt.Println(sEnc)
 }
 
-func decry(k string,m []byte)  {
+func decry(k []byte,m []byte)  {
 	dec,_ := base64.StdEncoding.DecodeString(string(m))
 	data := XORCipher(k,dec)
 	fmt.Println(string(data))
 }
 
-func start_file(key string,path string,e bool,d bool) {
+func start_file(key []byte,path string,e bool,d bool) {
 	if (e == true) {
 		encode_file(key,path)
 	}
 }
 
-func start(key string,data string,e bool,d bool) {
+func start(key []byte,data string,e bool,d bool) {
 	if (e == true) {
 		encry(key,[]byte(data))
 	}
@@ -91,9 +90,9 @@ FILE ENCODING
 `)
 	} else {
 		if (*file == true) {
-			start_file(*key,*p,*e,*d)
+			start_file([]byte(*key),*p,*e,*d)
 		} else {
-			start(*key,*data,*e,*d)
+			start([]byte(*key),*data,*e,*d)
 		}
 	}
 }
